@@ -15,6 +15,10 @@ mongoose
   .catch((err) => console.error(`Error connecting to MongoDB: ${err}`));
 
 // Routes
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "/index.html"));
+});
+
 const authRoute = require("./routes/auth");
 app.use("/auth", authRoute);
 const eventRoute = require('./routes/Event')
