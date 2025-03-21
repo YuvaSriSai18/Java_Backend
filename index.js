@@ -1,7 +1,6 @@
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
-const path = require("path");
 require("dotenv").config();
 
 app.use(express.json());
@@ -17,7 +16,7 @@ mongoose
 
 // Routes
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "/index.html"));
+  res.send(`Server is running`)
 });
 
 const authRoute = require("./routes/auth");
