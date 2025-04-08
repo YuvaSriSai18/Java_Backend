@@ -5,6 +5,8 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 router.post("/signup", async (req, res) => {
+  console.log(`Request received for sign up`);
+
   const { name, email, password } = req.body;
 
   try {
@@ -32,6 +34,7 @@ router.post("/signup", async (req, res) => {
 });
 
 router.post("/login", async (req, res) => {
+  console.log(`Request received for login`);
   const { email, password } = req.body;
   if (!email || !password) {
     return res.status(400).json({ msg: "Email and password are required" });
@@ -40,7 +43,9 @@ router.post("/login", async (req, res) => {
   try {
     let user = await User.findOne({ email });
     if (!user) {
-      return res.status(404).json({ msg: `User with email ${email} not found` });
+      return res
+        .status(404)
+        .json({ msg: `User with email ${email} not found` });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
@@ -49,7 +54,9 @@ router.post("/login", async (req, res) => {
     }
 
     const payload = { uid: user._id, name: user.name, email: user.email };
-    const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "1h" });
+    const token = jwt.sign(payload, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
 
     return res.status(200).json({ msg: "Login successful", token });
   } catch (error) {
@@ -57,6 +64,5 @@ router.post("/login", async (req, res) => {
     return res.status(500).json({ msg: "Internal Server Error" });
   }
 });
-
 
 module.exports = router;

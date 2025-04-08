@@ -13,7 +13,7 @@ const EventSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ["ONGOING","UPCOMING", "COMPLETED"],
+      enum: ["ALL", "UPCOMING", "COMPLETED", "ONGOING"],
       default: "UPCOMING",
     },
   },
